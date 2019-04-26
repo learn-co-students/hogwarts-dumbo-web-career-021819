@@ -55,7 +55,7 @@ class HogTile extends React.Component {
   }
 
   return (
-     <div className="ui eight wide column">
+     <div className="ui eight wide column pigTile">
       <button onClick={this.hideEvent}>HIDE/UNHIDE HAWG</button>
       {!this.state.isHidden && <div>
         <h2>{this.props.hog.name}</h2>
