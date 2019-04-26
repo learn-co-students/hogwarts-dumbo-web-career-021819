@@ -2,12 +2,32 @@ import React from 'react'
 
 class HogTile extends React.Component {
   state = {
-    clicked: false
+    clicked: false,
+    isHidden: false,
+    pigGifs: []
+  }
+
+ pigUrl = "https://api.giphy.com/v1/gifs/search?api_key=E9xvzwY9YM4BtKsoly1PNwyW1AKRHW34&q=pigs&limit=14&offset=0&rating=G&lang=en"
+
+  componentDidMount = () => {
+    fetch("https://api.giphy.com/v1/gifs/search?api_key=E9xvzwY9YM4BtKsoly1PNwyW1AKRHW34&q=pigs&limit=14&offset=0&rating=G&lang=en")
+    .then(response => response.json())
+    .then(pigGifsData => {
+      this.setState({
+        pigGifs: pigGifsData.data.map(pig => pig.images.fixed_width.url)
+      })
+    })
   }
 
   handleClick = (event) => {
     this.setState({
       clicked: !this.state.clicked
+    })
+  }
+
+  hideEvent = (event) => {
+    this.setState({
+      isHidden: !this.state.isHidden
     })
   }
 
@@ -35,10 +55,14 @@ class HogTile extends React.Component {
   }
 
   return (
-    <div className="ui eight wide column">
-      <h2>{this.props.hog.name}</h2>
-      <img onClick={this.handleClick} alt={this.props.hog.name} src={require(`../hog-imgs/${slugify(this.props.hog.name)}.jpg`)} />
+     <div className="ui eight wide column">
+      <button onClick={this.hideEvent}>HIDE/UNHIDE HAWG</button>
+      {!this.state.isHidden && <div>
+        <h2>{this.props.hog.name}</h2>
+        <img onClick={this.handleClick} alt={this.props.hog.name} src={this.state.pigGifs[Math.floor(Math.random()*this.state.pigGifs.length)]} />
       {this.showInfo()}
+      </div>}
+
     </div>
   )
 }
