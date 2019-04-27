@@ -1,3 +1,5 @@
+//309 lbs
+
 const hogs = [
   {
     name: 'Mudblood',
